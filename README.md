@@ -7,9 +7,9 @@ Tugas Kelompok Pemrograman Java - Console Application.
 | Nama / Akun | Modul | File | Cabang (Branch) |
 | :--- | :--- | :--- | :--- |
 | **Achmad Fajar** | Menu Utama, I/O & Exception Handling | `Main.java` | `feature-main` |
-| **@AnandaAfriezta** | Transaksi, Diskon & Struk | `Transaction.java`, `TransactionItem.java` | `feature-transaction` |
-| **@fdaengnaba** | Laporan Harian & Top 3 Produk | `ReportService.java` | `feature-report` |
-| **@erykaocta** | Data Produk & Laporan Utama | `Product.java` | `feature-product` |
+| **Ananda Afriezta** | Transaksi, Diskon & Struk | `Transaction.java`, `TransactionItem.java` | `feature-transaction` |
+| **Daeng Naba** | Laporan Harian & Top 3 Produk | `ReportService.java` | `feature-report` |
+| **Eryka Octa** | Data Produk & Laporan Utama | `Product.java` | `feature-product` |
 
 ## Cara Menjalankan Program (CLI)
 1. Buka terminal di folder proyek
