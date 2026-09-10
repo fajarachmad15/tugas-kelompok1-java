@@ -1,0 +1,8 @@
+# File hasil kompilasi Java
+*.class
+bin/
+
+# Folder editor
+.vscode/
+.idea/
+*.iml
