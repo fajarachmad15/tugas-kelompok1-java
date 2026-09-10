@@ -1,0 +1,50 @@
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+
+public class ReportService {
+
+    // 1. Ringkasan penjualan harian
+    public void tampilkanRingkasanHarian(ArrayList<Transaction> daftarTransaksi) {
+        double totalPendapatan = 0;
+        for (Transaction t : daftarTransaksi) {
+            totalPendapatan += t.getTotalAkhir();
+        }
+        System.out.println("\n=== LAPORAN PENJUALAN HARIAN ===");
+        System.out.println("Jumlah Transaksi Berhasil : " + daftarTransaksi.size());
+        System.out.printf("Total Pendapatan Toko     : Rp%.2f\n", totalPendapatan);
+        System.out.println("================================");
+    }
+
+    // 2. Daftar stok menipis (< 10 unit)
+    public void tampilkanStokMenipis(ArrayList<Product> daftarProduk) {
+        System.out.println("\n=== PERINGATAN: STOK MENIPIS (< 10 UNIT) ===");
+        boolean adaPeringatan = false;
+        for (Product p : daftarProduk) {
+            if (p.getStok() < 10) {
+                System.out.println(p);
+                adaPeringatan = true;
+            }
+        }
+        if (!adaPeringatan) {
+            System.out.println("Seluruh stok produk berada dalam kondisi aman.");
+        }
+        System.out.println("============================================");
+    }
+
+    // 3. Top 3 produk terlaris berdasarkan unit terjual
+    public void tampilkanTop3Terlaris(ArrayList<Product> daftarProduk) {
+        System.out.println("\n=== TOP 3 PRODUK TERLARIS ===");
+        ArrayList<Product> copyList = new ArrayList<>(daftarProduk);
+
+        // Pengurutan menurun berdasarkan atribut unit terjual
+        copyList.sort((p1, p2) -> Integer.compare(p2.getTerjual(), p1.getTerjual()));
+
+        int limit = Math.min(3, copyList.size());
+        for (int i = 0; i < limit; i++) {
+            Product p = copyList.get(i);
+            System.out.printf("%d. %-20s | Terjual: %d unit\n", (i + 1), p.getNama(), p.getTerjual());
+        }
+        System.out.println("=============================");
+    }
+}
