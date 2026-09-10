@@ -2,6 +2,7 @@ import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+
 public class Main {
     private static ArrayList<Product> daftarProduk = new ArrayList<>();
     private static ArrayList<Transaction> riwayatTransaksi = new ArrayList<>();
