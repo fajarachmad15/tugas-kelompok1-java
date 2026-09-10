@@ -1,6 +1,6 @@
 # Proyek Sistem Manajemen Toko Retail (Aplikasi Konsol Java)
 
-Tugas Kelompok Pemrograman Java - Console Application.
+Tugas Kelompok 1 Pemrograman Java - Console Application.
 
 ## Pembagian Tugas & Branch
 
