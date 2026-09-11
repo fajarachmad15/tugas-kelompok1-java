@@ -1,8 +1,17 @@
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Locale;
+import java.text.NumberFormat;
 
 public class ReportService {
+
+    // Helper privat untuk memformat angka menjadi Rupiah standar Indonesia (misal: Rp150.000)
+    private String formatRupiah(double nominal) {
+        Locale localeID = Locale.forLanguageTag("id-ID");
+        NumberFormat formatRupiah = NumberFormat.getCurrencyInstance(localeID);
+        return formatRupiah.format(nominal);
+    }
 
     // 1. Ringkasan penjualan harian
     public void tampilkanRingkasanHarian(ArrayList<Transaction> daftarTransaksi) {
@@ -23,8 +32,8 @@ public class ReportService {
         }
 
         System.out.println("Jumlah Transaksi Berhasil : " + daftarTransaksi.size());
-        System.out.printf("Total Pendapatan Toko     : Rp%.2f\n", totalPendapatan);
-        System.out.println("================================");
+        System.out.println(" Total Pendapatan Toko     : " + formatRupiah(totalPendapatan));
+        System.out.println("========================================");
     }
 
     // 2. Daftar stok menipis (< 10 unit)
@@ -63,7 +72,7 @@ public class ReportService {
             System.out.println("========================================");
             return;
         }
-        
+
         ArrayList<Product> copyList = new ArrayList<>(daftarProduk);
 
         // Pengurutan menurun berdasarkan atribut unit terjual
