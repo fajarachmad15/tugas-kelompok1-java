@@ -146,19 +146,34 @@ public class Main {
         trx.terapkanDiskon();
         System.out.printf("Total yang harus dibayar: Rp%.2f\n", trx.getTotalAkhir());
 
-        System.out.print("Pilih Metode Pembayaran (1. Tunai / 2. Transfer): ");
-        int metode = scanner.nextInt();
-        scanner.nextLine();
-        trx.setMetodePembayaran(metode == 1 ? "Tunai" : "Transfer");
+        int metode;
+        while (true) {
+            System.out.print("Pilih Metode Pembayaran (1. Tunai / 2. Transfer): ");
+            metode = scanner.nextInt();
+            scanner.nextLine();
+            if (metode == 1) {
+                trx.setMetodePembayaran("Tunai");
+                break;
+            } else if (metode == 2) {
+                trx.setMetodePembayaran("Transfer");
+                break;
+            } else {
+                System.out.println("Pilihan tidak valid. Silakan pilih 1 atau 2.");
+            }
+        }
 
         double bayar = 0;
-        while (bayar < trx.getTotalAkhir()) {
-            System.out.print("Masukkan nominal pembayaran: Rp");
-            bayar = scanner.nextDouble();
-            scanner.nextLine();
-            if (bayar < trx.getTotalAkhir()) {
-                System.out.println("Nominal kurang! Silakan bayar sesuai atau lebih dari total tagihan.");
+        if (metode == 1) {
+            while (bayar < trx.getTotalAkhir()) {
+                System.out.print("Masukkan nominal pembayaran: Rp");
+                bayar = scanner.nextDouble();
+                scanner.nextLine();
+                if (bayar < trx.getTotalAkhir()) {
+                    System.out.println("Nominal kurang! Silakan bayar sesuai atau lebih dari total tagihan.");
+                }
             }
+        } else {
+            bayar = trx.getTotalAkhir();
         }
 
         trx.cetakStruk(bayar);
