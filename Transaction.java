@@ -17,12 +17,40 @@ public class Transaction {
 
     public String getIdTransaksi() { return idTransaksi; }
     public ArrayList<TransactionItem> getItems() { return items; }
+    public double getDiskon() { return diskon; }
     public double getTotalAkhir() { return totalAkhir; }
     public String getMetodePembayaran() { return metodePembayaran; }
-    public void setMetodePembayaran(String metode) { this.metodePembayaran = metode; }
+    public void setMetodePembayaran(String metode) {
+        if (metode == null) {
+            throw new IllegalArgumentException(
+                "Metode pembayaran tidak boleh kosong."
+            );
+        }
+        if (!metode.equalsIgnoreCase("tunai") && !metode.equalsIgnoreCase("transfer")) {
+            throw new IllegalArgumentException(
+                "Metode pembayaran harus tunai atau transfer."
+            );
+        }
+        this.metodePembayaran = metode;
+    }
 
     // Tambah barang ke keranjang
     public void tambahItem(Product p, int qty) {
+        if (p == null) {
+            throw new IllegalArgumentException(
+                "Produk tidak boleh kosong."
+            );
+        }
+        if (qty <= 0) {
+            throw new IllegalArgumentException(
+                "Jumlah barang harus lebih dari 0."
+            );
+        }
+        if (qty > p.getStok()) {
+            throw new IllegalArgumentException(
+                "Stok produk tidak mencukupi."
+            );
+        }
         items.add(new TransactionItem(p, qty));
     }
 
@@ -49,6 +77,11 @@ public class Transaction {
 
     // Cetak struk ke konsol
     public void cetakStruk(double nominalBayar) {
+        if (metodePembayaran == null) {
+            throw new IllegalStateException(
+                "Metode pembayaran belum dipilih."
+            );
+        }
         System.out.println("\n========== STRUK PEMBAYARAN TOKO RETAIL ==========");
         System.out.println("ID Transaksi: " + idTransaksi);
         System.out.println("Metode      : " + metodePembayaran);
@@ -60,8 +93,20 @@ public class Transaction {
         System.out.printf("Subtotal    : Rp%.2f\n", hitungSubtotalKotor());
         System.out.printf("Diskon      : Rp%.2f\n", diskon);
         System.out.printf("Total Bayar : Rp%.2f\n", totalAkhir);
-        System.out.printf("Uang Diterima: Rp%.2f\n", nominalBayar);
-        System.out.printf("Kembalian   : Rp%.2f\n", (nominalBayar - totalAkhir));
+
+        // Pembayaran tunai
+        if (metodePembayaran.equalsIgnoreCase("tunai")) {
+            if (nominalBayar < totalAkhir) {
+                throw new IllegalArgumentException(
+                    "Nominal pembayaran kurang dari total."
+                );
+            }
+            System.out.printf("Uang Diterima: Rp%.2f\n", nominalBayar);
+            System.out.printf("Kembalian   : Rp%.2f\n", nominalBayar - totalAkhir);
+        // Pembayaran transfer
+        } else {
+            System.out.println( "Status      : Pembayaran berhasil melalui transfer");
+        }
         System.out.println("==================================================\n");
     }
 }

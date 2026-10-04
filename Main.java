@@ -166,48 +166,36 @@ public class Main {
 
         // Terapkan diskon otomatis
         trx.terapkanDiskon();
-        System.out.printf("\nTotal Tagihan: Rp%.2f\n", trx.getTotalAkhir());
+        System.out.printf("Total yang harus dibayar: Rp%.2f\n", trx.getTotalAkhir());
 
-        // Pilih metode bayar
-        int metode = 0;
-        while (metode != 1 && metode != 2) {
-            try {
-                System.out.print("Pilih Metode Pembayaran (1. Tunai / 2. Transfer): ");
-                metode = scanner.nextInt();
-                scanner.nextLine();
-                if (metode != 1 && metode != 2) {
-                    System.out.println("Pilihan salah, ketik 1 atau 2.");
-                }
-            } catch (InputMismatchException e) {
-                System.out.println("Error: Masukkan angka 1 atau 2!");
-                scanner.nextLine();
+        int metode;
+        while (true) {
+            System.out.print("Pilih Metode Pembayaran (1. Tunai / 2. Transfer): ");
+            metode = scanner.nextInt();
+            scanner.nextLine();
+            if (metode == 1) {
+                trx.setMetodePembayaran("Tunai");
+                break;
+            } else if (metode == 2) {
+                trx.setMetodePembayaran("Transfer");
+                break;
+            } else {
+                System.out.println("Pilihan tidak valid. Silakan pilih 1 atau 2.");
             }
         }
 
-        double nominalBayar = 0;
+        double bayar = 0;
         if (metode == 1) {
-            trx.setMetodePembayaran("Tunai");
-            // Validasi uang tunai harus cukup
-            while (nominalBayar < trx.getTotalAkhir()) {
-                try {
-                    System.out.print("Masukkan uang tunai diterima: Rp");
-                    nominalBayar = scanner.nextDouble();
-                    scanner.nextLine();
-
-                    if (nominalBayar < trx.getTotalAkhir()) {
-                        System.out.printf("Uang kurang Rp%.2f, silakan masukkan ulang.\n", (trx.getTotalAkhir() - nominalBayar));
-                    }
-                } catch (InputMismatchException e) {
-                    System.out.println("Error: Masukkan angka nominal yang benar!");
-                    scanner.nextLine();
+            while (bayar < trx.getTotalAkhir()) {
+                System.out.print("Masukkan nominal pembayaran: Rp");
+                bayar = scanner.nextDouble();
+                scanner.nextLine();
+                if (bayar < trx.getTotalAkhir()) {
+                    System.out.println("Nominal kurang! Silakan bayar sesuai atau lebih dari total tagihan.");
                 }
             }
         } else {
-            trx.setMetodePembayaran("Transfer");
-            System.out.print("Masukkan Nomor Referensi / Bank: ");
-            String noRef = scanner.nextLine().trim();
-            System.out.println("Pembayaran transfer [" + noRef + "] diverifikasi.");
-            nominalBayar = trx.getTotalAkhir(); // Transfer dianggap uang pas
+            bayar = trx.getTotalAkhir();
         }
 
         // Cetak struk dan masukkan ke history transaksi
